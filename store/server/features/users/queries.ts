@@ -25,6 +25,14 @@ const getUser = async (id: string) => {
   return crudRequest({ url: `/users/${id}`, method: "GET" });
 };
 
+
+const getOwnersUser = async () => {
+  const { accessToken } = useAuthStore.getState();
+
+  return crudRequest({ url: `/users/owners`, method: "GET"  , headers: {
+    Authorization: `Bearer ${accessToken}`,
+  },});
+};
 /**
  * Function to fetch a list of users by role by sending a GET request to the API.
  * @param role The role of the users to fetch.
@@ -74,3 +82,6 @@ export const useGetUser = (id: string) => useQuery<User>(["user", id], () => get
  */
 
 export const useGetUsersByRole = (role: string) => useQuery<User[]>(["users", "role", role], () => getUsersByRole(role), { keepPreviousData: true });
+
+
+export const useGetOwnersUser = () => useQuery<User[]>(["owners"], () => getOwnersUser(), { keepPreviousData: true });
