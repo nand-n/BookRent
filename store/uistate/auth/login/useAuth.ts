@@ -9,7 +9,6 @@ interface User {
   permissions: string[];
   phone: string;
   email: string;
-  telegramUser: string;
 }
 
 interface AuthState {
