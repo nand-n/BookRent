@@ -23,7 +23,7 @@ const AntdConfigProvider = ({ children }: { children: React.ReactNode }) => {
           Empty: {},
         },
         token: {
-          colorPrimary: '#3636F0',
+          colorPrimary: '#00ABFF',
           colorSuccess: '#0CAF60',
           colorError: '#E03137',
           colorWarning: '#FACC15',
