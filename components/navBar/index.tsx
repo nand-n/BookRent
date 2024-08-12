@@ -1,7 +1,7 @@
 'use client';
 
 import React, { ReactNode, useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   AppstoreOutlined,
   BarChartOutlined,
@@ -17,13 +17,12 @@ import { IoCloseOutline } from 'react-icons/io5';
 import { Layout, Menu, Button, Skeleton, theme } from 'antd';
 const { Header, Content, Sider } = Layout;
 import type { MenuProps } from 'antd';
-import NavBar from './topNavBar';
 import { CiSettings } from 'react-icons/ci';
 import { LuUsers } from 'react-icons/lu';
-import { PiSuitcaseSimpleThin } from 'react-icons/pi';
 import useAuthStore from '@/store/uistate/auth/login/useAuth';
 import CustomBreadcrumb from '../common/breadCramp';
-import { Footer } from 'antd/es/layout/layout';
+
+import { generateDynamicTitleAndSubtitle } from '@/utils/getTitleAndSubtitle';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -51,11 +50,6 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
         icon: <CiSettings />,
         label: 'Dashboard',
       },
-      {
-        key: '/book-upload',
-        icon: <CiSettings />,
-        label: 'Book Upload',
-      },
     ];
 
     if (user?.role === 'super-admin') {
@@ -82,11 +76,38 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
             },
           ],
         },
+      );
+    }
 
+    if (user?.role == 'owner') {
+      items.push(
         {
-          key: '/dashboard/incites',
+          key: '/book-upload',
+          icon: <CiSettings />,
+          label: 'Book Upload',
+        },
+        {
+          key: '/login-as-admin',
           icon: <BarChartOutlined />,
-          label: 'Incites',
+          label: 'Login As Admin',
+        },
+      );
+    } else if (user?.role == 'admin') {
+      items.push(
+        {
+          key: '/books',
+          icon: <BarChartOutlined />,
+          label: 'Books',
+        },
+        {
+          key: '/owners',
+          icon: <BarChartOutlined />,
+          label: 'Owners',
+        },
+        {
+          key: '/login-as-admin',
+          icon: <BarChartOutlined />,
+          label: 'Login As Admin',
         },
       );
     }
@@ -103,20 +124,6 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
         label: 'Setings',
       },
     );
-
-    if (user?.role == 'owner') {
-      items.push({
-        key: '/login-as-admin',
-        icon: <BarChartOutlined />,
-        label: 'Login As Admin',
-      });
-    } else if (user?.role == 'admin') {
-      items.push({
-        key: '/login-as-admin',
-        icon: <BarChartOutlined />,
-        label: 'Login As Admin',
-      });
-    }
 
     return items;
   };
@@ -151,6 +158,13 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
       setMobileCollapsed(true);
     }
   };
+
+  const pathname = usePathname();
+
+  const { title, subtitle } = generateDynamicTitleAndSubtitle(pathname);
+
+  // Get the breadcrumb data based on the current route and user role
+  // const breadcrumb = breadcrumbConfig[pathname]?.[user.role] || { title: 'Home', subtitle: '' };
 
   return (
     <Layout hasSider>
@@ -288,17 +302,17 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
                   >
                     {' '}
                     <CustomBreadcrumb
-                      title={`${user?.role == 'admin' && 'Admin'}`}
-                      subtitle={`${user?.role == 'admin' && 'Dashboard'}`}
+                      title={`${title}`}
+                      subtitle={`${subtitle}}`}
                     />
                   </div>
                   <div
-                    className="col-span-full p-6"
+                    className="col-span-full p-6 bg-gray-100"
                     style={{
                       background: colorBgContainer,
                       borderRadius: borderRadiusLG,
                       marginTop: '2.5rem',
-                      height: '100vh',
+                      minHeight: '100vh',
                     }}
                   >
                     {children}
