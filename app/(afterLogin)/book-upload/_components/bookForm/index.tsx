@@ -24,6 +24,7 @@ interface BookUploadFormProps {
   submitAction: (values: any) => void;
   bookUploadData?: DataType | null;
   title: string;
+  loading: boolean;
 }
 
 const BookUploadForm = ({
@@ -32,6 +33,7 @@ const BookUploadForm = ({
   submitAction,
   bookUploadData,
   title,
+  loading,
 }: BookUploadFormProps) => {
   const [form] = Form.useForm();
   const [error, setEror] = useState(null);
@@ -63,6 +65,7 @@ const BookUploadForm = ({
   return (
     <div>
       <Modal
+        loading={loading}
         onCancel={onClose}
         open={open}
         style={{ paddingBottom: 80 }}
@@ -80,7 +83,7 @@ const BookUploadForm = ({
         <div className="font-bold text-3xl text-center py-4 ">{title}</div>
         <Form layout="vertical" form={form}>
           <Form.Item
-            name="bookName"
+            name="name"
             label="Book Name"
             rules={[{ required: true, message: 'Please enter book name' }]}
           >
