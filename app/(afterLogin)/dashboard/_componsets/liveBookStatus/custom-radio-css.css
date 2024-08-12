@@ -1,0 +1,26 @@
+/* Default styles for the Radio component */
+.custom-radio {
+    --border-color: #52c41a; /* Default border color */
+  }
+  
+  /* Apply border color and inner dot color when checked */
+  .custom-radio.rented {
+    --border-color: #cf1322; /* Red border color for rented status */
+  }
+  
+  .custom-radio.free {
+    --border-color: #52c41a; /* Default border color for free status */
+  }
+  
+  .custom-radio .ant-radio-inner {
+    border-color: var(--border-color) !important;
+  }
+  
+  .custom-radio .ant-radio-inner:after {
+    background-color: var(--border-color) !important;
+  }
+  
+  .custom-radio:hover .ant-radio-inner {
+    border-color: var(--border-color) !important;
+  }
+  
