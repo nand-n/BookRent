@@ -5,7 +5,6 @@ export interface UserData {
     permissions: string[];
     phone: string;
     email: string;
-    telegramUser: string;
 }
 
 export interface LoginResponse {
@@ -20,7 +19,6 @@ export interface SignupResponse {
     permissions: string[];
     phone: string;
     email: string;
-    telegramUser: string;
   }
 
 export interface LoginData {
