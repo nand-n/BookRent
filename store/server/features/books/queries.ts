@@ -1,7 +1,7 @@
 import useAuthStore from '@/store/uistate/auth/login/useAuth';
 import { Book } from '@/types/features/books';
 import { crudRequest } from '@/utils/crudRequest';
-import { useMutation, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 
 const useBookGetsByAdminFetcher =async  () => {
     const { accessToken } = useAuthStore.getState();
@@ -11,14 +11,17 @@ const useBookGetsByAdminFetcher =async  () => {
     },});
 };
 
-// const useBookGetsByAdminFetcher = async (id: string) => {
-//   return await crudRequest({ url: `/announcements/${id}`, method: 'GET' });
-// };
+const liveBookStatus = async () => {
+    const { accessToken } = useAuthStore.getState();
+  return await crudRequest({ url: `/books/live-book-status`, method: 'GET' ,  headers: {
+    Authorization: `Bearer ${accessToken}`,
+  }, });
+};
 
 export const useBookGetsByAdmin =  () =>
     useQuery<Book[]>('all-books-by-admin', useBookGetsByAdminFetcher ,{keepPreviousData: true  });
 
-// export const useBookGetsByAdmin = (id: string) =>
-//   useQuery<Book>(['books-by-admin', id], () => useBookGetsByAdminFetcher(id), {
-//     keepPreviousData: true,
-//   });
+export const useLiveBookStatus = () =>
+  useQuery<Book[]>('live-book-status', () => liveBookStatus(), {
+    keepPreviousData: true,
+  });
