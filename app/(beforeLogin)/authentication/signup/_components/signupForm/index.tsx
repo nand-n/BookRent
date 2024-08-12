@@ -134,19 +134,6 @@ const SignupForm: React.FC = () => {
             </Form.Item>
 
             <Form.Item
-              name="telegramUser"
-              label="Telgram User Name"
-              rules={[
-                {
-                  required: false,
-                  message: 'Please input your telegram user name!',
-                },
-              ]}
-            >
-              <Input addonBefore={'@'} className="h-12" />
-            </Form.Item>
-
-            <Form.Item
               name="agreement"
               valuePropName="checked"
               rules={[
