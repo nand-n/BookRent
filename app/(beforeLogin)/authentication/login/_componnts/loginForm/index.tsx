@@ -26,7 +26,7 @@ const LoginForm: React.FC = () => {
         const { accessToken, refreshToken, user } = data;
         login(accessToken, refreshToken, user);
         setLoading(false);
-        router.push('/dashboard/manage-announcment');
+        router.push('/dashboard');
       },
       onError: (error: any) => {
         NotificationMessage.error({
