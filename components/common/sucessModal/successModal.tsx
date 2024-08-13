@@ -1,8 +1,7 @@
 'use client';
 import { Button, Modal, Typography } from 'antd';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 const { Text } = Typography;
 
