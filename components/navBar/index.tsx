@@ -2,20 +2,11 @@
 
 import React, { ReactNode, useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import {
-  AppstoreOutlined,
-  BarChartOutlined,
-  MenuOutlined,
-} from '@ant-design/icons';
+import { BarChartOutlined } from '@ant-design/icons';
 import { FaStarOfLife } from 'react-icons/fa';
-import {
-  MdOutlineKeyboardDoubleArrowLeft,
-  MdOutlineKeyboardDoubleArrowRight,
-} from 'react-icons/md';
-import { IoCloseOutline } from 'react-icons/io5';
 
-import { Layout, Menu, Button, Skeleton, theme } from 'antd';
-const { Header, Content, Sider } = Layout;
+import { Layout, Menu, Button, Skeleton, theme, Divider } from 'antd';
+const { Content, Sider } = Layout;
 import type { MenuProps } from 'antd';
 import { CiSettings } from 'react-icons/ci';
 import { LuUsers } from 'react-icons/lu';
@@ -23,6 +14,7 @@ import useAuthStore from '@/store/uistate/auth/login/useAuth';
 import CustomBreadcrumb from '../common/breadCramp';
 
 import { generateDynamicTitleAndSubtitle } from '@/utils/getTitleAndSubtitle';
+import IconWrapper from '../common/iconWrapper';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -35,19 +27,19 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [mobileCollapsed, setMobileCollapsed] = useState(true);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
 
   const getMenuItems = (): MenuItem[] => {
     const items: MenuItem[] = [
       {
         key: '/dashboard',
-        icon: <CiSettings />,
+        icon: <IconWrapper src="/icons/dashboard.svg" />,
         label: 'Dashboard',
       },
     ];
@@ -80,50 +72,62 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     }
 
     if (user?.role == 'owner') {
-      items.push(
-        {
-          key: '/book-upload',
-          icon: <CiSettings />,
-          label: 'Book Upload',
-        },
-        {
-          key: '/login-as-admin',
-          icon: <BarChartOutlined />,
-          label: 'Login As Admin',
-        },
-      );
+      items.push({
+        key: '/book-upload',
+        icon: <IconWrapper src="/icons/booksicons.svg" />,
+        label: 'Book Upload',
+      });
     } else if (user?.role == 'admin') {
       items.push(
         {
           key: '/books',
-          icon: <BarChartOutlined />,
+          icon: <IconWrapper src="/icons/books.svg" />,
           label: 'Books',
         },
         {
           key: '/owners',
-          icon: <BarChartOutlined />,
+          icon: <IconWrapper src="/icons/user.svg" />,
           label: 'Owners',
-        },
-        {
-          key: '/login-as-admin',
-          icon: <BarChartOutlined />,
-          label: 'Login As Admin',
         },
       );
     }
 
-    items.push(
+    return items;
+  };
+
+  const getCommonMenuItems = (): MenuItem[] => {
+    const items: MenuItem[] = [
       {
         key: '/notification',
-        icon: <BarChartOutlined />,
+        icon: <IconWrapper src="/icons/notification.svg" />,
         label: 'Notification',
       },
       {
         key: '/settings',
-        icon: <BarChartOutlined />,
-        label: 'Setings',
+        icon: <IconWrapper src="/icons/settings.svg" />,
+        label: 'Settings',
       },
-    );
+    ];
+
+    if (user?.role != 'owner') {
+      items.push({
+        key: '/authentication/login?Owner',
+        icon: <IconWrapper src="/icons/user2.svg" />,
+        label: 'Login as Book Owner',
+      });
+    } else if (user?.role == 'owner') {
+      items.push({
+        key: '/authentication/login?Admin',
+        icon: <CiSettings />,
+        label: 'Login as Admin',
+      });
+    } else {
+      items.push({
+        key: '/authentication/login?SuperAdmin',
+        icon: <CiSettings />,
+        label: 'Login as SuperAdmin',
+      });
+    }
 
     return items;
   };
@@ -144,14 +148,6 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     };
   }, []);
 
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
-
-  const toggleMobileCollapsed = () => {
-    setMobileCollapsed(!mobileCollapsed);
-  };
-
   const handleMenuClick = (e: { key: string }) => {
     router.push(e.key);
     if (isMobile) {
@@ -162,9 +158,6 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
   const pathname = usePathname();
 
   const { title, subtitle } = generateDynamicTitleAndSubtitle(pathname);
-
-  // Get the breadcrumb data based on the current route and user role
-  // const breadcrumb = breadcrumbConfig[pathname]?.[user.role] || { title: 'Home', subtitle: '' };
 
   return (
     <Layout hasSider>
@@ -206,34 +199,48 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
               </p>
             )}
           </div>
-          <div onClick={toggleCollapsed} className="text-black text-xl">
-            {collapsed ? (
-              <MdOutlineKeyboardDoubleArrowRight />
-            ) : (
-              <MdOutlineKeyboardDoubleArrowLeft />
-            )}
-          </div>
         </div>
-        {!collapsed && (
-          <div className="mt-12 flex justify-between items-center border-2 border-[#7003ffc5] px-4 py-3 mx-4 rounded-lg">
-            <AppstoreOutlined size={24} className="text-black" />
-          </div>
-        )}
 
         {loading ? (
           <Skeleton className="mt-5 px-4" active />
         ) : (
-          <div className="grid mt-3">
-            <Menu
-              mode="inline"
-              defaultSelectedKeys={['/dashboard']}
-              items={getMenuItems()}
-              inlineCollapsed={collapsed}
-              className={`my-2 h-full`}
-              theme={'dark'}
-              onClick={handleMenuClick}
-            />
-            <div className="text-white">gdsf</div>
+          <div className="grid h-full">
+            <div className="flex flex-col justify-between h-full px-4 w-full relative">
+              <div className="flex flex-col">
+                <Divider style={{ background: '#fff' }} />
+
+                <Menu
+                  mode="inline"
+                  defaultSelectedKeys={['/dashboard']}
+                  items={getMenuItems()}
+                  inlineCollapsed={collapsed}
+                  className="my-0"
+                  theme="dark"
+                  onClick={handleMenuClick}
+                />
+
+                <Divider style={{ background: '#fff' }} />
+
+                <Menu
+                  mode="inline"
+                  items={getCommonMenuItems()}
+                  inlineCollapsed={collapsed}
+                  className="my-0"
+                  theme="dark"
+                  onClick={handleMenuClick}
+                />
+
+                <Divider style={{ background: '#fff' }} />
+              </div>
+
+              <Button
+                className="mt-auto w-full bg-black h-12"
+                onClick={() => logout()}
+                type="default"
+              >
+                Logout
+              </Button>
+            </div>
           </div>
         )}
       </Sider>
@@ -243,42 +250,6 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
           transition: 'margin-left 0.3s ease',
         }}
       >
-        {/* <Header
-          style={{
-            padding: 4,
-            background: colorBgContainer,
-            display: 'flex',
-            alignItems: 'center',
-            position: 'fixed',
-            width: '100%',
-            zIndex: 1000,
-            top: 0,
-            left: isMobile && mobileCollapsed ? 0 : collapsed ? 80 : 280,
-            transition: 'left 0.3s ease',
-          }}
-        >
-          {isMobile && (
-            <div className="w-full h-full p-[10px] grid justify-center items-center">
-              <Button
-                className="w-full h-full"
-                onClick={toggleMobileCollapsed}
-                icon={
-                  !mobileCollapsed ? (
-                    <IoCloseOutline
-                      size={24}
-                      className="text-gray-500 border-none"
-                    />
-                  ) : (
-                    <MenuOutlined
-                      size={24}
-                      className="text-gray-500 border-none"
-                    />
-                  )
-                }
-              />
-            </div>
-          )}
-        </Header> */}
         <Content
           className="m-6"
           style={{
