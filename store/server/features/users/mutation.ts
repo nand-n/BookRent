@@ -9,11 +9,32 @@ import { useMutation, useQueryClient } from "react-query";
  * @returns The response data from the API.
  */
 const updateUser = async (data: DataProp) => {
+  const { accessToken } = useAuthStore.getState();
+
   const { id, dataP } = data;
   return await crudRequest({
     url: `/users/${id}`,
     method: "PATCH",
-    data: dataP,
+    data: dataP,  headers: {
+      Authorization: `Bearer ${accessToken}`,
+    }
+    
+  });
+};
+/**
+ * Function to delete user information by sending a DELETE request to the API.
+ * @param data The data object containing user ID  to be deleted.
+ * @returns The response data from the API.
+ */
+const deleteUser= async (id:string) => {
+  const { accessToken } = useAuthStore.getState();
+
+  return await crudRequest({
+    url: `/users/${id}`,
+    method: "DELETE",
+      headers: {
+      Authorization: `Bearer ${accessToken}`,
+    }
   });
 };
 
@@ -60,6 +81,23 @@ const assignRole = async (data: AssignRoleProp) => {
 export const useUpdateUser = () => {
   const queryClient = useQueryClient();
   return useMutation(updateUser, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("users");
+    },
+  });
+};
+
+/**
+ * Custom hook to deletes user information using useMutation from react-query.
+ * @returns The mutation object for deleting user information.
+ * 
+ * @description
+ * This hook handles the mutation to update a user's information. On successful mutation,
+ * it invalidates the "users" query to refetch the latest data.
+ */
+export const useDeleteUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation(deleteUser, {
     onSuccess: () => {
       queryClient.invalidateQueries("users");
     },
