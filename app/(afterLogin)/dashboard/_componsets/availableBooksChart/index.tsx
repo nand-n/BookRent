@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from 'antd';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
-
-const data = [
-  { name: 'Fiction', value: 54, color: '#1890ff' },
-  { name: 'Self Help', value: 20, color: '#52c41a' },
-  { name: 'Business', value: 26, color: '#f5222d' },
-];
+import { useAvailabeBooks } from '@/store/server/features/books/queries';
+import { transformCategoryData } from '@/utils/transformBookCategoryData';
 
 const AvailableBooksChart = () => {
+  const { data: bookDataTobeTransformed } = useAvailabeBooks();
+  const [data, setData] = useState<any>(null);
+
+  useEffect(() => {
+    setData(transformCategoryData(bookDataTobeTransformed));
+  }, [bookDataTobeTransformed]);
   return (
     <Card bordered={false} title="Available Books" extra={<span>Today</span>}>
       <div className="grid justify-center items-center">
@@ -23,14 +25,14 @@ const AvailableBooksChart = () => {
             paddingAngle={5}
             dataKey="value"
           >
-            {data.map((entry, index) => (
+            {data?.map((entry: any, index: any) => (
               <Cell key={`cell-${index}`} fill={entry.color} />
             ))}
           </Pie>
           <Tooltip />
         </PieChart>
         <div className="legend-container">
-          {data.map((entry, index) => (
+          {data?.map((entry: any, index: any) => (
             <div
               key={`legend-${index}`}
               className="legend-item"

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   AreaChart,
   Area,
@@ -11,25 +11,42 @@ import {
 } from 'recharts';
 import { DatePicker, Checkbox, Card } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
+import { useGetEarningSummary } from '@/store/server/features/sales/queries';
 
 const { RangePicker } = DatePicker;
 
 const EarningSummaryChart = () => {
   const [dateRange, setDateRange] = useState<[Dayjs | null, Dayjs | null]>([
-    dayjs('2022-03'),
+    dayjs('2024-03'),
     dayjs('2024-10'),
   ]);
   const [showLast6Months, setShowLast6Months] = useState(true);
   const [showSamePeriodLastYear, setShowSamePeriodLastYear] = useState(true);
 
-  const data = [
-    { date: 'May', last6Months: 200000, samePeriodLastYear: 180000 },
-    { date: 'Jun', last6Months: 150000, samePeriodLastYear: 130000 },
-    { date: 'Jul', last6Months: 220000, samePeriodLastYear: 200000 },
-    { date: 'Aug', last6Months: 250000, samePeriodLastYear: 230000 },
-    { date: 'Sep', last6Months: 240000, samePeriodLastYear: 220000 },
-    { date: 'Oct', last6Months: 280000, samePeriodLastYear: 250000 },
-  ];
+  const { data: earningSummary } = useGetEarningSummary();
+
+  const transformedData = useMemo(() => {
+    if (!earningSummary) return [];
+
+    return earningSummary.map(({ month }) => {
+      const currentMonth = dayjs(month);
+      const lastYearMonth = currentMonth.subtract(1, 'year').format('MMM YYYY');
+
+      const last6MonthsData = earningSummary.find(({ month: m }) =>
+        dayjs(m).isSame(currentMonth, 'month'),
+      )?.total;
+
+      const samePeriodLastYearData = earningSummary.find(({ month: m }) =>
+        dayjs(m).isSame(lastYearMonth, 'month'),
+      )?.total;
+
+      return {
+        date: currentMonth.format('MMM YYYY'),
+        last6Months: last6MonthsData || 0,
+        samePeriodLastYear: samePeriodLastYearData || 0,
+      };
+    });
+  }, [earningSummary]);
 
   return (
     <Card
@@ -74,7 +91,7 @@ const EarningSummaryChart = () => {
     >
       <ResponsiveContainer width="100%" height={300}>
         <AreaChart
-          data={data}
+          data={transformedData}
           margin={{
             top: 10,
             right: 30,

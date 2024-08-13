@@ -26,6 +26,7 @@ function LiveBookStatus() {
       price: `${book.price} Birr`,
     })) || [];
 
+  /* eslint-disable  @typescript-eslint/naming-convention */
   const columns = [
     { title: 'No.', dataIndex: 'no', key: 'no' },
     { title: 'Book no.', dataIndex: 'bookNo', key: 'bookNo' },
@@ -71,10 +72,13 @@ function LiveBookStatus() {
       ),
     },
   ];
+  /* eslint-enable  @typescript-eslint/naming-convention */
+
   return (
     <Card bordered={false} title="Live Book Status">
       <Table
         columns={columns}
+        scroll={{ x: 'max-content' }}
         dataSource={liveBookData}
         pagination={{ pageSize: 5 }}
         loading={isBookGetLoading}

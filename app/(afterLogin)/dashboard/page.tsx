@@ -1,5 +1,4 @@
 'use client';
-import { Card } from 'antd';
 
 import EarningSummaryChart from './_componsets/earningSummaryChart';
 import AvailableBooksChart from './_componsets/availableBooksChart';
