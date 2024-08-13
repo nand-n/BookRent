@@ -1,4 +1,3 @@
-// users.interface.ts
 
 export interface User {
     id: string;
@@ -7,7 +6,7 @@ export interface User {
     deletedAt: string | null;
     name: string;
     password: string;
-    role: 'super-admin' | 'admin' | 'player';
+    role: 'super-admin' | 'admin' | 'owner';
     permissions: string[];
     phone: string;
     email: string;
