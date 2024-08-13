@@ -1,16 +1,21 @@
 'use client';
 import { Avatar, Button, Card, Popconfirm, Switch, Table } from 'antd';
-import Image from 'next/image';
 import React from 'react';
 import { AiFillDelete } from 'react-icons/ai';
 import { CheckOutlined } from '@ant-design/icons';
 import { useGetOwnersUser } from '@/store/server/features/users/queries';
 import { BiUser } from 'react-icons/bi';
+import { useDeleteUser } from '@/store/server/features/users/mutation';
 
 function Owners() {
   const { data, isLoading: isBookGetLoading } = useGetOwnersUser();
+  const { mutate: deleteUser } = useDeleteUser();
 
-  const handleDelete = (id: string) => {};
+  const handleDelete = (id: string) => {
+    deleteUser(id);
+  };
+  /* eslint-disable @typescript-eslint/naming-convention */
+
   const columns = [
     {
       title: 'No.',
@@ -63,7 +68,7 @@ function Owners() {
         return (
           <div className="flex justify-start items-center gap-2">
             <div
-              className={`flex items-center space-x-2 p-2 rounded-full ${
+              className={`w-1/2 space-x-2 p-2 rounded-full ${
                 isActive ? 'bg-green-100' : 'bg-gray-200'
               }`}
             >
@@ -108,6 +113,8 @@ function Owners() {
       ),
     },
   ];
+  /* eslint-enable @typescript-eslint/naming-convention */
+
   return (
     <Card bordered={false} title="Live Book Status">
       <Table
