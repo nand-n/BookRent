@@ -15,6 +15,7 @@ import CustomBreadcrumb from '../common/breadCramp';
 
 import { generateDynamicTitleAndSubtitle } from '@/utils/getTitleAndSubtitle';
 import IconWrapper from '../common/iconWrapper';
+import Image from 'next/image';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -47,17 +48,17 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     if (user?.role === 'super-admin') {
       items.push(
         {
-          key: '/dashboard/finance',
+          key: '/dashboard',
           icon: <BarChartOutlined />,
           label: 'Finance',
         },
         {
-          key: '/dashboard/manage-users',
+          key: '/manage-users',
           icon: <LuUsers />,
           label: 'Manage Users',
           children: [
             {
-              key: '/dashboard/users/user-list',
+              key: '/users/user-list',
               icon: <LuUsers />,
               label: 'Users List',
             },
@@ -191,11 +192,16 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
       >
         <div className="flex justify-between px-4 my-4">
           <div className=" flex items-center gap-2">
-            <FaStarOfLife color="#3636F0" />
+            <IconWrapper src="/icons/expandIcon.svg" height={30} width={30} />
             {!collapsed && (
               <p className="text-xl text-white font-bold uppercase">
                 {' '}
-                Book Rent
+                <Image
+                  src={'icons/bookRentIconBig.svg'}
+                  alt="BookRent"
+                  width={170}
+                  height={60}
+                />
               </p>
             )}
           </div>
@@ -207,7 +213,7 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
           <div className="grid h-full">
             <div className="flex flex-col justify-between h-full px-4 w-full relative">
               <div className="flex flex-col">
-                <Divider style={{ background: '#fff' }} />
+                <Divider style={{ background: '#F8F8F880' }} />
 
                 <Menu
                   mode="inline"
@@ -219,7 +225,7 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
                   onClick={handleMenuClick}
                 />
 
-                <Divider style={{ background: '#fff' }} />
+                <Divider style={{ background: '#F8F8F880' }} />
 
                 <Menu
                   mode="inline"
@@ -230,11 +236,12 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
                   onClick={handleMenuClick}
                 />
 
-                <Divider style={{ background: '#fff' }} />
+                <Divider style={{ background: '#F8F8F880' }} />
               </div>
 
               <Button
-                className="mt-auto w-full bg-black h-12"
+                icon={<IconWrapper src="/icons/Logout.svg" />}
+                className="mt-auto w-full bg-slate-700 text-white border-none h-12"
                 onClick={() => logout()}
                 type="default"
               >
