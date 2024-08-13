@@ -3,7 +3,6 @@ import { useBookGetsByAdmin } from '@/store/server/features/books/queries';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import BookUploadForm from './_components/bookForm';
 import { Form, Input, Select, Button, Upload } from 'antd';
-import { AiFillEdit, AiFillDelete } from 'react-icons/ai';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { UploadFile } from 'antd/lib';
@@ -146,11 +145,13 @@ function BookUpload() {
                 placeholder="Book Quantity"
                 className="h-12"
               >
+                {/* eslint-disable  @typescript-eslint/naming-convention */}
                 {Array.from({ length: 1000 }, (_, index) => (
                   <Option key={index} value={index + 1}>
                     {index + 1}
                   </Option>
                 ))}
+                {/* eslint-enable @typescript-eslint/naming-convention */}
               </Select>
             </Form.Item>
 

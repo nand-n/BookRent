@@ -1,18 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import {
-  Col,
-  DatePicker,
-  Drawer,
-  Form,
-  Input,
-  Modal,
-  Row,
-  Select,
-  Space,
-} from 'antd';
+import { Form, Input, Modal, Select } from 'antd';
 import Error from 'next/error';
-import { DataType } from '@/types/dashboard/tenant/clientAdministration';
 import CustomButton from '@/components/common/buttons/customButton';
 import { useGetCategory } from '@/store/server/features/category/queries';
 
@@ -22,7 +11,7 @@ interface BookUploadFormProps {
   onClose: () => void;
   open: boolean;
   submitAction: (values: any) => void;
-  bookUploadData?: DataType | null;
+  bookUploadData?: any;
   title: string;
   loading: boolean;
 }
