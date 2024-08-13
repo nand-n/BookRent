@@ -18,6 +18,14 @@ const liveBookStatus = async () => {
   }, });
 };
 
+const getBooksByCategory = async () => {
+  const { accessToken } = useAuthStore.getState();
+return await crudRequest({ url: `/books/by-category`, method: 'GET' ,  headers: {
+  Authorization: `Bearer ${accessToken}`,
+}, });
+};
+
+
 export const useBookGetsByAdmin =  () =>
     useQuery<Book[]>('all-books-by-admin', useBookGetsByAdminFetcher ,{keepPreviousData: true  });
 
@@ -25,3 +33,7 @@ export const useLiveBookStatus = () =>
   useQuery<Book[]>('live-book-status', () => liveBookStatus(), {
     keepPreviousData: true,
   });
+
+
+  export const  useAvailabeBooks = () =>
+    useQuery<any>('books-by-category', getBooksByCategory ,{keepPreviousData: true  });
