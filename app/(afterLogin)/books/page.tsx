@@ -7,6 +7,8 @@ import { CheckOutlined } from '@ant-design/icons';
 
 function Books() {
   const { data, isLoading: isBookGetLoading } = useBookGetsByAdmin();
+  /* eslint-disable  @typescript-eslint/naming-convention */
+
   const columns = [
     {
       title: 'No.',
@@ -87,12 +89,15 @@ function Books() {
       },
     },
   ];
+  /* eslint-enable  @typescript-eslint/naming-convention */
+
   return (
     <Card bordered={false} title="Live Book Status">
       <Table
         rowKey={'id'}
         columns={columns}
         dataSource={data}
+        scroll={{ x: 'max-content' }}
         pagination={{ pageSize: 20 }}
         loading={isBookGetLoading}
       />
