@@ -89,7 +89,11 @@ const EarningSummaryChart = () => {
         </div>
       }
     >
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer
+        className={'w-full overflow-auto'}
+        width="100%"
+        height={300}
+      >
         <AreaChart
           data={transformedData}
           margin={{

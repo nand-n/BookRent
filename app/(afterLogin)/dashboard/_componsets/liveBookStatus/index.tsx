@@ -75,15 +75,21 @@ function LiveBookStatus() {
   /* eslint-enable  @typescript-eslint/naming-convention */
 
   return (
-    <Card bordered={false} title="Live Book Status">
-      <Table
-        columns={columns}
-        scroll={{ x: 'max-content' }}
-        dataSource={liveBookData}
-        pagination={{ pageSize: 5 }}
-        loading={isBookGetLoading}
-      />
-    </Card>
+    <div className="w-full">
+      <Card
+        bordered={false}
+        title="Live Book Status"
+        className="overflow-x-scroll"
+      >
+        <Table
+          columns={columns}
+          scroll={{ x: 'max-content' }}
+          dataSource={liveBookData}
+          pagination={{ pageSize: 5 }}
+          loading={isBookGetLoading}
+        />
+      </Card>
+    </div>
   );
 }
 

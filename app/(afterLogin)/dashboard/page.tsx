@@ -7,22 +7,26 @@ import LiveBookStatus from './_componsets/liveBookStatus';
 
 const Home = () => {
   return (
-    <div className="p-4">
-      <div className="grid grid-cols-12 w-full items-center gap-4 my-4">
-        <div className="col-span-4 col-start-1 bg-white w-full h-full  space-y-4  rounded-2xl">
-          <div className="grid gap-4 shadow-lg roudned space-y-8 m-4">
+    <div className="p-2 md:p-4 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 w-full items-center gap-4 my-4">
+        {/* Left Column */}
+        <div className="col-span-1 sm:col-span-2 lg:col-span-4 bg-white w-full h-full space-y-4 rounded-2xl">
+          <div className="grid gap-4 shadow-lg rounded space-y-8 m-1  md:m-4">
             <ThisMonthStatistics />
             <AvailableBooksChart />
           </div>
         </div>
 
-        <div className="col-span-8 col-start-5 w-full h-full space-y-12">
-          <div className="grid  items-center m-4   space-y-4  ">
-            <div className=" bg-white mb-8 rounded-2xl shadow-lg">
+        {/* Right Column */}
+        <div className="col-span-1 sm:col-span-2 lg:col-span-8 w-full h-full space-y-4 rounded-2xl">
+          <div className="grid gap-4 shadow-lg rounded space-y-8 m-1  md:m-4">
+            {/* Live Book Status */}
+            <div className="bg-white mb-8 rounded-2xl shadow-lg w-full overflow-x-auto">
               <LiveBookStatus />
             </div>
 
-            <div className=" bg-white rounded-2xl shadow-lg py-4">
+            {/* Earning Summary Chart */}
+            <div className="bg-white rounded-2xl shadow-lg py-4 w-full overflow-x-auto">
               <EarningSummaryChart />
             </div>
           </div>

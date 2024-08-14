@@ -16,7 +16,7 @@ const ThisMonthStatistics: React.FC = () => {
     <Card
       loading={loading}
       title={
-        <div>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <Title level={5} style={{ margin: 0 }}>
             This Month Statistics
           </Title>
@@ -25,9 +25,9 @@ const ThisMonthStatistics: React.FC = () => {
       }
       bordered={false}
     >
-      <div>
-        <div style={{ marginBottom: '16px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <div className="flex justify-between">
             <Text strong>Income</Text>
             <Text type="secondary">This Month</Text>
           </div>
@@ -58,10 +58,7 @@ const ThisMonthStatistics: React.FC = () => {
             month
           </Text>
         </div>
-        <div
-          className="flex justify-between gap-4 items-center"
-          style={{ marginTop: '16px' }}
-        >
+        <div className="flex justify-between items-center">
           <Text>Last Month Income</Text>
           <Text className="font-bold text-xl" style={{ margin: 0 }}>
             ETB {monthlySalesStatisticsData?.previousMonthIncome.toFixed(2)}
