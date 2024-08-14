@@ -121,6 +121,7 @@ function Owners() {
         rowKey={'id'}
         columns={columns}
         dataSource={data}
+        scroll={{ x: 'max-content' }}
         pagination={{ pageSize: 20 }}
         loading={isBookGetLoading}
       />
