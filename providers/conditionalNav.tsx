@@ -31,11 +31,7 @@ const ConditionalNav: React.FC<{ children: React.ReactNode }> = ({
       // console.log('error loading the color theme');
     }
   }, [theme]);
-  const excludeNavPaths = [
-    '/authentication/login',
-    '/authentication/signup',
-    '/not-found',
-  ];
+  const excludeNavPaths = ['/auth/login', '/auth/signup', '/not-found'];
 
   return (
     <>{excludeNavPaths.includes(pathname) ? children : <Nav>{children}</Nav>}</>
