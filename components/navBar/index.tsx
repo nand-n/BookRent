@@ -1,5 +1,4 @@
 'use client';
-
 import React, { ReactNode, useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { BarChartOutlined } from '@ant-design/icons';
@@ -114,19 +113,19 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
 
     if (user?.role != 'owner') {
       items.push({
-        key: '/authentication/login?Owner',
+        key: '/auth/login?Owner',
         icon: <IconWrapper src="/icons/user2.svg" />,
         label: 'Login as Book Owner',
       });
     } else if (user?.role == 'owner') {
       items.push({
-        key: '/authentication/login?Admin',
+        key: '/auth/login?Admin',
         icon: <CiSettings />,
         label: 'Login as Admin',
       });
     } else {
       items.push({
-        key: '/authentication/login?SuperAdmin',
+        key: '/auth/login?SuperAdmin',
         icon: <CiSettings />,
         label: 'Login as SuperAdmin',
       });

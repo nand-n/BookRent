@@ -32,7 +32,7 @@ const NavBar = ({ page }: NavBarProps) => {
         <Button
           onClick={() => {
             logout();
-            router.replace('/authentication/login');
+            router.replace('/auth/login');
           }}
           target="_blank"
           rel="noopener noreferrer"
