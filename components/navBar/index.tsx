@@ -1,8 +1,7 @@
 'use client';
 import React, { ReactNode, useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { BarChartOutlined } from '@ant-design/icons';
-
+import { BarChartOutlined, MenuOutlined } from '@ant-design/icons';
 import { Layout, Menu, Button, Skeleton, theme, Divider } from 'antd';
 const { Content, Sider } = Layout;
 import type { MenuProps } from 'antd';
@@ -10,11 +9,11 @@ import { CiSettings } from 'react-icons/ci';
 import { LuUsers } from 'react-icons/lu';
 import useAuthStore from '@/store/uistate/auth/login/useAuth';
 import CustomBreadcrumb from '../common/breadCramp';
-
 import { generateDynamicTitleAndSubtitle } from '@/utils/getTitleAndSubtitle';
 import IconWrapper from '../common/iconWrapper';
 import Image from 'next/image';
-
+import { MdClose } from 'react-icons/md';
+import { IoMdMenu } from 'react-icons/io';
 type MenuItem = Required<MenuProps>['items'][number];
 
 interface MyComponentProps {
@@ -26,15 +25,12 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [mobileCollapsed, setMobileCollapsed] = useState(true);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  const toggleCollapsed = () => {
-    setCollapsed(collapsed);
-  };
   const { user, logout } = useAuthStore();
 
   const getMenuItems = (): MenuItem[] => {
@@ -150,6 +146,9 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     };
   }, []);
 
+  const toggleMobileCollapsed = () => {
+    setMobileCollapsed(!mobileCollapsed);
+  };
   const handleMenuClick = (e: { key: string }) => {
     router.push(e.key);
     if (isMobile) {
@@ -189,28 +188,27 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
             setMobileCollapsed(true);
           }
         }}
-        collapsedWidth={isMobile ? 80 : 80}
+        collapsedWidth={isMobile ? 24 : 80}
       >
         <div className="flex justify-between px-4 my-4">
           <div className=" flex items-center gap-2">
-            <div
-              onClick={toggleCollapsed}
-              className="text-black text-xl cursor-pointer"
-            >
-              {collapsed ? (
-                <IconWrapper
-                  src="/icons/expandIcon.svg"
-                  height={30}
-                  width={30}
-                />
-              ) : (
-                <IconWrapper
-                  src="/icons/expandIcon.svg"
-                  height={30}
-                  width={30}
-                />
-              )}
-            </div>
+            {isMobile && (
+              <div
+                onClick={toggleMobileCollapsed}
+                className="text-black text-xl cursor-pointer"
+              >
+                {collapsed ? (
+                  <IconWrapper
+                    src="/icons/expandIcon.svg"
+                    height={30}
+                    width={30}
+                  />
+                ) : (
+                  <MdClose color="white" size={24} />
+                )}
+              </div>
+            )}
+
             {!collapsed && (
               <p className="text-xl text-white font-bold uppercase">
                 {' '}
@@ -260,7 +258,10 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
               <Button
                 icon={<IconWrapper src="/icons/Logout.svg" />}
                 className="mt-auto w-full bg-slate-700 text-white border-none h-12"
-                onClick={() => logout()}
+                onClick={() => {
+                  logout();
+                  router.push('/auth/login');
+                }}
                 type="default"
               >
                 Logout
@@ -276,10 +277,10 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
         }}
       >
         <Content
-          className="m-6"
+          className=" m-2 md:m-6"
           style={{
-            paddingTop: isMobile ? 64 : 24,
-            paddingLeft: isMobile ? 0 : collapsed ? 80 : 280,
+            paddingTop: isMobile ? 18 : 24,
+            paddingLeft: isMobile ? 0 : collapsed ? 28 : 280,
             transition: 'padding-left 0.3s ease',
           }}
         >
@@ -290,24 +291,39 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
               <div className="grid grid-col">
                 <div className="col-span1">
                   <div
-                    className="rounded-2xl px-4 py-2"
+                    className="rounded-2xl  px-2 md:px-4 py-2 md:h-20"
                     style={{
                       background: colorBgContainer,
                       borderRadius: borderRadiusLG,
                     }}
                   >
-                    {' '}
-                    <CustomBreadcrumb
-                      title={`${title}`}
-                      subtitle={`${subtitle}}`}
-                    />
+                    {isMobile && (
+                      <div className="flex justify-start items-center gap-2 h-12">
+                        <div
+                          className="w-12 h-8 "
+                          onClick={toggleMobileCollapsed}
+                        >
+                          <IoMdMenu size={24} className="text-black" />
+                        </div>
+
+                        <CustomBreadcrumb
+                          title={`${title}`}
+                          subtitle={`${subtitle}}`}
+                        />
+                      </div>
+                    )}{' '}
+                    <div className="hidden md:flex   justify-start items-center ">
+                      <CustomBreadcrumb
+                        title={`${title}`}
+                        subtitle={`${subtitle}}`}
+                      />
+                    </div>
                   </div>
                   <div
-                    className="col-span-full p-6 bg-gray-100"
+                    className="col-span-full p-2 md:p-3 lg:p-6 bg-gray-100 pt-4 md:mt-10"
                     style={{
                       background: colorBgContainer,
                       borderRadius: borderRadiusLG,
-                      marginTop: '2.5rem',
                       minHeight: '100vh',
                     }}
                   >
