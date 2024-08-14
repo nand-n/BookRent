@@ -40,11 +40,11 @@ const LoginForm: React.FC = () => {
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
-      <div className="lg:w-1/2 flex items-center justify-center bg-[#171B36] p-4">
+      <div className="lg:w-1/2 flex items-center justify-center bg-[#171B36] p-2 md:p-4">
         <Image src="/icons/booklogo.svg" alt="Logo" width={350} height={350} />
       </div>
-      <div className="lg:w-1/2 flex items-center justify-center p-2 bg-white">
-        <div className="max-w-full w-full px-24">
+      <div className="lg:w-1/2 flex items-center justify-center md:p-2 bg-white">
+        <div className="max-w-full w-full px-4 md:px-8 lg:px-24">
           <div className="text-center mt-24 mb-6 flex justify-start items-center gap-4">
             <Image
               src="/icons/booklogo.svg"
@@ -102,8 +102,7 @@ const LoginForm: React.FC = () => {
           </Form>
 
           <div className="text-center mt-4">
-            Don{"'"}t have an account?{' '}
-            <Link href="/authentication/signup">Sign Up</Link>
+            Don{"'"}t have an account? <Link href="/auth/signup">Sign Up</Link>
           </div>
         </div>
       </div>

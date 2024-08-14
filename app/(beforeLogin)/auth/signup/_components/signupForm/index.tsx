@@ -16,7 +16,7 @@ const SignupForm: React.FC = () => {
   const onFinish = (values: SignupData) => {
     signUpUser(values, {
       onSuccess() {
-        router.push('/authentication/login', {
+        router.push('/auth/login', {
           scroll: true,
         });
       },
@@ -164,8 +164,7 @@ const SignupForm: React.FC = () => {
             </Form.Item>
           </Form>
           <div className="text-center mt-4">
-            Already have an account?{' '}
-            <Link href="/authentication/login">Login</Link>
+            Already have an account? <Link href="/auth/login">Login</Link>
           </div>
         </div>
       </div>
