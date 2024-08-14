@@ -27,12 +27,15 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const [collapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [mobileCollapsed, setMobileCollapsed] = useState(true);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
+  const toggleCollapsed = () => {
+    setCollapsed(collapsed);
+  };
   const { user, logout } = useAuthStore();
 
   const getMenuItems = (): MenuItem[] => {
@@ -191,7 +194,24 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
       >
         <div className="flex justify-between px-4 my-4">
           <div className=" flex items-center gap-2">
-            <IconWrapper src="/icons/expandIcon.svg" height={30} width={30} />
+            <div
+              onClick={toggleCollapsed}
+              className="text-black text-xl cursor-pointer"
+            >
+              {collapsed ? (
+                <IconWrapper
+                  src="/icons/expandIcon.svg"
+                  height={30}
+                  width={30}
+                />
+              ) : (
+                <IconWrapper
+                  src="/icons/expandIcon.svg"
+                  height={30}
+                  width={30}
+                />
+              )}
+            </div>
             {!collapsed && (
               <p className="text-xl text-white font-bold uppercase">
                 {' '}
