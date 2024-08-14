@@ -1,7 +1,7 @@
 'use client';
 import React, { ReactNode, useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { BarChartOutlined, MenuOutlined } from '@ant-design/icons';
+import { BarChartOutlined } from '@ant-design/icons';
 import { Layout, Menu, Button, Skeleton, theme, Divider } from 'antd';
 const { Content, Sider } = Layout;
 import type { MenuProps } from 'antd';
