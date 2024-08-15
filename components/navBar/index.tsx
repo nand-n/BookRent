@@ -308,14 +308,14 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
 
                         <CustomBreadcrumb
                           title={`${title}`}
-                          subtitle={`${subtitle}}`}
+                          subtitle={`${subtitle ?? 'page'}`}
                         />
                       </div>
                     )}{' '}
                     <div className="hidden md:flex   justify-start items-center ">
                       <CustomBreadcrumb
                         title={`${title}`}
-                        subtitle={`${subtitle}}`}
+                        subtitle={`${subtitle ?? 'page'}`}
                       />
                     </div>
                   </div>
