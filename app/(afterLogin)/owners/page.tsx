@@ -1,19 +1,27 @@
 'use client';
 import { Avatar, Button, Card, Popconfirm, Switch, Table } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { AiFillDelete } from 'react-icons/ai';
 import { CheckOutlined } from '@ant-design/icons';
 import { useGetOwnersUser } from '@/store/server/features/users/queries';
 import { BiUser } from 'react-icons/bi';
 import { useDeleteUser } from '@/store/server/features/users/mutation';
+import IconWrapper from '@/components/common/iconWrapper';
+import ShowDetail from './_components/detailModal';
 
 function Owners() {
   const { data, isLoading: isBookGetLoading } = useGetOwnersUser();
   const { mutate: deleteUser } = useDeleteUser();
 
+  const [detail, setDetail] = useState<any>(null);
   const handleDelete = (id: string) => {
     deleteUser(id);
   };
+
+  const hanldeShowDetail = (recod: any) => {
+    setDetail(recod);
+  };
+
   /* eslint-disable @typescript-eslint/naming-convention */
 
   const columns = [
@@ -96,13 +104,27 @@ function Owners() {
       render: (_: any, record: any) => (
         <div className="flex justify-between items-center ">
           <div className="flex justify-start items-center gap-2">
+            <div
+              className="cursor-pointer"
+              onClick={() => hanldeShowDetail(record)}
+            >
+              <IconWrapper
+                src="/icons/eye.svg"
+                width={24}
+                height={24}
+                alt="view"
+              />
+            </div>
             <Popconfirm
               title="Are you sure to delete this book?"
               onConfirm={() => handleDelete(record.key)}
               okText="Yes"
               cancelText="No"
             >
-              <AiFillDelete style={{ cursor: 'pointer', color: '#ff4d4f' }} />
+              <AiFillDelete
+                size={24}
+                style={{ cursor: 'pointer', color: '#ff4d4f' }}
+              />
             </Popconfirm>
           </div>
 
@@ -116,16 +138,23 @@ function Owners() {
   /* eslint-enable @typescript-eslint/naming-convention */
 
   return (
-    <Card bordered={false} title="Live Book Status">
-      <Table
-        rowKey={'id'}
-        columns={columns}
-        dataSource={data}
-        scroll={{ x: 'max-content' }}
-        pagination={{ pageSize: 20 }}
-        loading={isBookGetLoading}
+    <>
+      <Card bordered={false} title="Live Book Status">
+        <Table
+          rowKey={'id'}
+          columns={columns}
+          dataSource={data}
+          scroll={{ x: 'max-content' }}
+          pagination={{ pageSize: 20 }}
+          loading={isBookGetLoading}
+        />
+      </Card>
+      <ShowDetail
+        data={detail}
+        handleCancel={() => setDetail(null)}
+        isModalVisible={detail}
       />
-    </Card>
+    </>
   );
 }
 export default Owners;

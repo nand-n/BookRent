@@ -47,7 +47,10 @@ const ThisMonthStatistics: React.FC = () => {
                   ) : (
                     <ArrowUpOutlined />
                   )}{' '}
-                  {Math.abs(monthlySalesStatisticsData.percentageChange)}%
+                  {Math.abs(
+                    monthlySalesStatisticsData.percentageChange,
+                  ).toFixed(2)}
+                  %
                 </>
               )}
             </Text>

@@ -18,7 +18,7 @@ function Books() {
         <p>{String(index + 1).padStart(2, '0')}</p>
       ),
     },
-    { title: 'Author', dataIndex: 'bookAuthor', key: 'BookAuthor' },
+    { title: 'Author', dataIndex: 'authorName', key: 'authorName' },
     {
       title: 'Owner',
       dataIndex: 'user',
@@ -26,10 +26,11 @@ function Books() {
       render: (_: any, record: any) => (
         <div className="flex justify-start items-center gap-2">
           <Image
+            className="bg-gray-50"
             width={50}
             height={50}
             alt="image"
-            src={record?.user?.profileImage}
+            src={record?.user?.profileImage ?? '/icons/user2.svg'}
           />
           <p>{record?.user.name}</p>
         </div>
