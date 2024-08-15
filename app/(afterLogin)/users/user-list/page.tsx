@@ -1,5 +1,4 @@
 'use client';
-import CustomBreadcrumb from '@/components/common/breadCramp';
 import { useGetUsers } from '@/store/server/features/users/queries';
 import useUserUIState from '@/store/uistate/features/users/useStore';
 import { User } from '@/types/features/users';
@@ -50,8 +49,8 @@ function UserListPage() {
 
   const tabItems = [
     {
-      key: 'player',
-      label: 'Players',
+      key: 'owner',
+      label: 'Owners',
     },
     {
       key: 'admin',
@@ -64,8 +63,7 @@ function UserListPage() {
   ];
 
   return (
-    <div>
-      <CustomBreadcrumb title="Users" subtitle="List of users" />
+    <div className="w-full">
       <Tabs activeKey={activeRole} onChange={(key) => setActiveRole(key)}>
         {tabItems.map((tab) => (
           <Tabs.TabPane tab={tab.label} key={tab.key}>
@@ -76,6 +74,9 @@ function UserListPage() {
               }
               loading={isLoading || loading}
               rowKey="id"
+              scroll={{
+                x: 'max-content',
+              }}
               pagination={{ pageSize: 10 }}
             />
           </Tabs.TabPane>

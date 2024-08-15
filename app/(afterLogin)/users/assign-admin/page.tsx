@@ -2,7 +2,6 @@
 
 import React, { useEffect } from 'react';
 import { Table, Tabs, Button, Popconfirm } from 'antd';
-import CustomBreadcrumb from '@/components/common/breadCramp';
 import useUserUIState from '@/store/uistate/features/users/useStore';
 import { useGetUsers } from '@/store/server/features/users/queries';
 import { useAssignRole } from '@/store/server/features/users/mutation';
@@ -72,8 +71,8 @@ const AssignAdminPage: React.FC = () => {
 
   const tabItems = [
     {
-      key: 'player',
-      label: 'Players',
+      key: 'owner',
+      label: 'Book Owners',
     },
     {
       key: 'admin',
@@ -92,14 +91,14 @@ const AssignAdminPage: React.FC = () => {
   }, [activeRole, setLoading, refetch]);
 
   return (
-    <div>
-      <CustomBreadcrumb
-        title="Assign To Admin"
-        subtitle="Assign Permission to admin"
-      />
-      <Tabs activeKey={activeRole} onChange={(key) => setActiveRole(key)}>
+    <div className="max-w-full overflow-x-auto">
+      <Tabs
+        defaultActiveKey={'owner'}
+        activeKey={activeRole}
+        onChange={(key) => setActiveRole(key)}
+      >
         {tabItems.map((tab) => (
-          <Tabs.TabPane tab={tab.label} key={tab.key}>
+          <Tabs.TabPane active tab={tab.label} key={tab.key}>
             <Table
               columns={columns}
               dataSource={
@@ -107,6 +106,7 @@ const AssignAdminPage: React.FC = () => {
               }
               loading={isLoading}
               rowKey="id"
+              scroll={{ x: 'max-content' }}
               pagination={{ pageSize: 10 }}
             />
           </Tabs.TabPane>

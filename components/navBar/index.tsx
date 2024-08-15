@@ -45,7 +45,7 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
     if (user?.role === 'super-admin') {
       items.push(
         {
-          key: '/dashboard',
+          key: '/finances',
           icon: <BarChartOutlined />,
           label: 'Finance',
         },
@@ -60,7 +60,7 @@ const Nav: React.FC<MyComponentProps> = ({ children }) => {
               label: 'Users List',
             },
             {
-              key: '/dashboard/users/assign-admin',
+              key: '/users/assign-admin',
               icon: <LuUsers />,
               label: 'Assign Admin',
             },
